@@ -8,37 +8,84 @@
 package ucf.assignments;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import org.json.JSONArray;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class HomePageController {
 
-    //AddItem makeItem = new AddItem();
+    AddItem makeItem = new AddItem();
+    JSONArray jsonArray = new JSONArray();
 
-   // @FXML
-   // private TextField itemAdd;
+    @FXML
+    private TextArea descriptionBox;
 
-    public void clearListClicked(MouseEvent mouseEvent) {
+    @FXML
+    private DatePicker dateBox;
+
+    @FXML
+    private TextField itemAdd;
+
+    @FXML
+    private CheckBox initialCheckBox;
+
+    @FXML
+    void addButtonClicked(MouseEvent event) throws IOException {
+
+        GetInfo myInfo = new GetInfo(); // don't need anymore
+
+        String myDate = dateBox.getValue().toString();
+       boolean isChecked = myInfo.getChecked(initialCheckBox);
+
+        makeItem.getItem(itemAdd.getText(), descriptionBox.getText(), myDate, isChecked, jsonArray);
     }
 
-    public void allItemsClicked(ActionEvent actionEvent) {
+
+
+
+    @FXML
+    void allItemsClicked(ActionEvent event) {
+
     }
 
-    public void completedItemsClicked(ActionEvent actionEvent) {
+    @FXML
+    void clearListClicked(MouseEvent event) {
+
     }
 
-    public void uncompletedItemsClicked(ActionEvent actionEvent) {
+    @FXML
+    void completedItemsClicked(ActionEvent event) {
+
     }
 
-    public void descriptionClicked(MouseEvent mouseEvent) {
+    @FXML
+    void dateClicked(MouseEvent event) {
+
     }
 
-    public void dateClicked(MouseEvent mouseEvent) {
+    @FXML
+    void descriptionClicked(MouseEvent event) {
+
     }
 
-    public void addButtonClicked(MouseEvent mouseEvent) {
-        //makeItem.getItem(itemAdd.getText());
+    @FXML
+    void removeButtonClicked(MouseEvent event) {
+
     }
 
-    public void removeButtonClicked(MouseEvent mouseEvent) {
+    @FXML
+    void uncompletedItemsClicked(ActionEvent event) {
+
     }
+
 }
+
+
