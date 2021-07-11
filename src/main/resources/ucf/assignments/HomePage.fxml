@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<!--
+  ~ /*
+  ~  *  UCF COP3330 Summer 2021 Assignment 4 Solution
+  ~  *  Copyright 2021 Alice Yu 
+  ~  */
+  -->
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
+   <children>
+      <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" onMouseClicked="#descriptionClicked" prefHeight="272.0" prefWidth="339.0" />
+      <DatePicker fx:id="dateBox" layoutX="235.0" layoutY="328.0" onMouseClicked="#dateClicked" />
+      <Button layoutX="172.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="+" />
+      <Button layoutX="197.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#removeButtonClicked" text="-" />
+      <!--<DropdownButton layoutX="516.0" layoutY="18.0" onMouseClicked="#allItemsClicked">
+         <items>
+            <MenuItem onAction="#allItemsButtonClicked" text="All Items " />
+            <MenuItem onAction="#completedItemsClicked" text="Completed Items" />
+            <MenuItem onAction="#incompleteItemsClicked" text="Incomplete Items" />
+         </items>
+      </DropdownButton>-->
+      <MenuBar layoutX="23.0" layoutY="48.0" prefHeight="25.0" prefWidth="192.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Task">
+              <items>
+                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clearListClicked" text="Clear List" />
+      <MenuBar layoutX="300.0" layoutY="14.0" prefHeight="25.0" prefWidth="192.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="View">
+               <items>
+                  <CheckMenuItem mnemonicParsing="false" onAction="#allItemsClicked" text="All Items" />
+                  <CheckMenuItem mnemonicParsing="false" onAction="#completedItemsClicked" text="Completed Items" />
+                  <CheckMenuItem mnemonicParsing="false" onAction="#uncompletedItemsClicked" text="Uncompleted Items" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <TableView layoutX="19.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="checked" />
+          <TableColumn prefWidth="124.0" text="Item" />
+        </columns>
+      </TableView>
+      <TextField fx:id="itemAdd" layoutX="19.0" layoutY="316.0" promptText=" Add Item" />
+   </children>
+</AnchorPane>
