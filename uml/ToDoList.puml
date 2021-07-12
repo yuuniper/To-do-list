@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Class HomePage{
+main()
+start()
+}
+
+
+
+Class HomePageController{
+
+TextField toDoListTitle
+TextField getTask
+TextField getDescription
+CheckBox getCheckBox
+DatePicker getDate
+
+addItemToJsonFile()
+addItemClicked()
+removeItemClicked()
+allItemsButtonClicked()
+completedItemsClicked()
+incompleteItemsClicked()
+saveListClicked()
+getTitle()
+loadList()
+setTitle()
+}
+
+Class AddItem(){
+ getItem()
+ getJsonArray()
+ addToFile()
+ getDirectory()
+}
+
+JavaFx.Application <|-- HomePage
+
+
+HomePage--HomePageController
+HomePageController--AddItem
+@enduml

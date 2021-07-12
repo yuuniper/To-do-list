@@ -20,7 +20,6 @@ public class AddItem {
         // Make JsonArray
          jsonArray = getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
          addToFile(jsonArray);
-         getDirectory();
     }
 
     public JSONArray getJsonArray(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) {

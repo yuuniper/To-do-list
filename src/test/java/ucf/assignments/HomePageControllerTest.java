@@ -5,11 +5,19 @@
  *
  */
 
-package assignments;
+package ucf.assignments;
 
 import org.junit.jupiter.api.Test;
+import ucf.assignments.HomePageController;
 
 class HomePageControllerTest {
+
+    @Test
+    void addItemToJsonFile_check_if_added(){
+        HomePageController test = new HomePageController();
+        test.
+
+    }
 
     @Test
     void addListClicked() {

@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,7 +33,6 @@ public class HomePageController {
 
     AddItem makeItem = new AddItem();
     JSONArray jsonArray = new JSONArray();
-    //ListViewController listView = new ListViewController();
 
     @FXML
     private TextArea descriptionBox;
@@ -45,6 +45,9 @@ public class HomePageController {
 
     @FXML
     private CheckBox initialCheckBox;
+
+    @FXML
+    private TextField dueDateBox;
 
     @FXML
     private TableColumn<TableData, Boolean> checkedColumn;
@@ -158,23 +161,83 @@ public class HomePageController {
     }
 
     @FXML
-    void dateClicked(MouseEvent event) {
-
+    void removeButtonClicked(MouseEvent event) throws IOException {
+        removeFromJsonFile();
     }
 
-    @FXML
-    void descriptionClicked(MouseEvent event) {
+    public void removeFromJsonFile(){
+
+        Object itemSelected = listItems.getSelectionModel().getSelectedItem();
+        System.out.println(itemSelected);
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++){
+
+                JSONObject jsn = jsonArray.getJSONObject(i);
+
+                String isTask = jsn.getString("Task");
+                if (isTask.equals(itemSelected)){
+                    jsonArray.remove(i);
+                    try {
+                        makeItem.addToFile(jsonArray);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // Clear text fields
+                    itemAdd.setText("");
+                    descriptionBox.setText("");
+                    dateBox.getEditor().clear();
+                    initialCheckBox.setSelected(false);
+                    dueDateBox.setText("");
+                    listItems.getItems().remove(itemSelected);
+                }
+            }
+        }
 
     }
-
-    @FXML
-    void removeButtonClicked(MouseEvent event) {
-
-    }
-
     @FXML
     void uncompletedItemsClicked(ActionEvent event) {
 
+    }
+
+    @FXML
+    void editButtonClicked(MouseEvent event) throws IOException {
+        addItemToJsonFile();
+        removeFromJsonFile();
+
+
+    }
+
+    @FXML
+    void selectItemClicked(MouseEvent event) {
+        displaySelectedItem();
+
+    }
+
+    public void displaySelectedItem(){
+        //ArrayList<String> itemsList = new ArrayList<String>();
+        Object itemSelected = listItems.getSelectionModel().getSelectedItem();
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++){
+
+                JSONObject jsn = jsonArray.getJSONObject(i);
+
+                String isTask = jsn.getString("Task");
+                if (isTask.equals(itemSelected)){
+                    itemAdd.setText(isTask);
+                    String description = (String) jsn.get("Description");
+                    descriptionBox.setText(description);
+
+                    String date = jsn.getString("Date");
+                    dueDateBox.setText(date);
+                    dateBox.setValue(LocalDate.parse(date));
+
+                    boolean checkbox = (boolean) jsn.get("Complete");
+                    initialCheckBox.setSelected(checkbox);
+
+
+                }
+            }
+        }
     }
 
 }

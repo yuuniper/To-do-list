@@ -21,24 +21,8 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
    <children>
       <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" onMouseClicked="#descriptionClicked" prefHeight="272.0" prefWidth="339.0" />
-      <DatePicker fx:id="dateBox" layoutX="235.0" layoutY="328.0" onMouseClicked="#dateClicked" />
+      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" onMouseClicked="#dateClicked" />
       <Button layoutX="197.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#removeButtonClicked" text="-" />
-      <!--<DropdownButton layoutX="516.0" layoutY="18.0" onMouseClicked="#allItemsClicked">
-         <items>
-            <MenuItem onAction="#allItemsButtonClicked" text="All Items " />
-            <MenuItem onAction="#completedItemsClicked" text="Completed Items" />
-            <MenuItem onAction="#incompleteItemsClicked" text="Incomplete Items" />
-         </items>
-      </DropdownButton>-->
-      <MenuBar layoutX="23.0" layoutY="48.0" prefHeight="25.0" prefWidth="192.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="Task">
-              <items>
-                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
-              </items>
-            </Menu>
-         </menus>
-      </MenuBar>
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clearListClicked" text="Clear List" />
       <MenuBar layoutX="300.0" layoutY="14.0" prefHeight="25.0" prefWidth="192.0">
          <menus>
@@ -51,9 +35,11 @@
             </Menu>
          </menus>
       </MenuBar>
-      <TextField fx:id="itemAdd" layoutX="19.0" layoutY="316.0" promptText=" Add Item" />
-      <CheckBox fx:id="initialCheckBox" layoutX="502.0" layoutY="343.0" mnemonicParsing="false" text="Complete?" />
-      <Button layoutX="502.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
-      <ListView fx:id="listItems" layoutX="19.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="itemAdd" layoutX="19.0" layoutY="277.0" promptText=" Add Item" />
+      <CheckBox fx:id="initialCheckBox" layoutX="23.0" layoutY="346.0" mnemonicParsing="false" text="Complete?" />
+      <Button layoutX="153.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
+      <ListView fx:id="listItems" layoutX="19.0" layoutY="59.0" onMouseClicked="#selectItemClicked" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="dueDateBox" layoutX="235.0" layoutY="334.0" />
+      <Button layoutX="512.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
    </children>
 </AnchorPane>
