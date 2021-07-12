@@ -5,9 +5,12 @@
  *
  */
 package ucf.assignments;
+import javafx.scene.control.DatePicker;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.Iterator;
+import java.util.Scanner;
 
 import org.json.simple.parser.*;
 import org.json.*;
@@ -15,13 +18,55 @@ import org.json.*;
 
 
 public class AddItem {
+
+    public static JSONArray addPreviousItemsFromJsonFile() throws FileNotFoundException {
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+        JSONArray jsonArray = new JSONArray();
+
+        try (FileReader reader = new FileReader(getDirectory()))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+             jsonArray = (JSONArray) obj;
+            System.out.println(jsonArray);
+
+            //Iterate over employee array
+            jsonArray.forEach( item -> parseItemObject( (JSONObject) item ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+    private static void parseItemObject(JSONObject item)
+    {
+        //Get employee object within list
+        //JSONObject employeeObject = (JSONObject) item.get("employee");
+
+        //Get employee first name
+        String task = (String) item.get("Task");
+        System.out.println(task);
+
+        boolean isChecked = (Boolean) item.get("Checked");
+        System.out.println(isChecked);
+        String description = (String) item.get("Description");
+        System.out.println(description);
+        DatePicker date = (DatePicker) item.get("Date");
+        System.out.println(date);
+    }
+
     public void getItem(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) throws IOException {
-      
 
         // Make JsonArray
-         jsonArray = getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
-       
-         addToFile(jsonArray);
+        jsonArray = getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
+
+        addToFile(jsonArray);
     }
 
     public JSONArray getJsonArray(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) {
@@ -58,4 +103,7 @@ public class AddItem {
 
         return directory;
     }
+
 }
+
+

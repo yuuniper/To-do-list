@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -29,10 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HomePageController {
+public class HomePageController implements Initializable{
 
     AddItem makeItem = new AddItem();
     JSONArray jsonArray = new JSONArray();
+    CompletedView myView = new CompletedView();
 
     @FXML
     private TextArea descriptionBox;
@@ -48,6 +50,10 @@ public class HomePageController {
 
     @FXML
     private TextField dueDateBox;
+
+    @FXML
+    private ComboBox<String> viewingOptions;
+
 
     @FXML
     private TableColumn<TableData, Boolean> checkedColumn;
@@ -153,7 +159,29 @@ public class HomePageController {
     @FXML
     void clearListClicked(MouseEvent event) {
 
+        removeList();
+        clearListView();
+
     }
+
+    public void clearListView() {
+        // Clear all items from list view
+        listItems.getItems().clear();
+    }
+
+    public void removeList(){
+        if (jsonArray != null) {
+            // make a new jsonArray element to clear out the old one
+                JSONArray jsonArray = new JSONArray();
+                try {
+                    // clear json file
+                    makeItem.addToFile(jsonArray);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
     @FXML
     void completedItemsClicked(ActionEvent event) {
@@ -201,10 +229,10 @@ public class HomePageController {
 
     @FXML
     void editButtonClicked(MouseEvent event) throws IOException {
+        // add edited item
         addItemToJsonFile();
+        // delete old item
         removeFromJsonFile();
-
-
     }
 
     @FXML
@@ -239,6 +267,35 @@ public class HomePageController {
             }
         }
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Combo button
+        ObservableList<String> list = FXCollections.observableArrayList("All Items", "Completed Items", "Incomplete Items");
+        viewingOptions.setItems(list);
+        viewingOptions.setValue("All Items");
+
+        // Loading from previously saved json File to list
+        /*try {
+            addPreviousItems();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
+    }
+
+    public void addPreviousItems() throws FileNotFoundException {
+        jsonArray = AddItem.addPreviousItemsFromJsonFile();
+    }
+
+    public void viewButtonClicked(MouseEvent event) {
+        System.out.println("View Button Clicked");
+        String selection  = viewingOptions.getSelectionModel().getSelectedItem().toString();
+        CompletedView.gotoview(selection, jsonArray, listItems);
+    }
+
+
+
 
 }
 
