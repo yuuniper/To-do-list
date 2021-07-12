@@ -21,15 +21,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
    <children>
-      <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" prefHeight="272.0" prefWidth="339.0" />
-      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" />
+      <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" prefHeight="272.0" prefWidth="339.0" promptText="Add Description" />
+      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" promptText="Add Date" />
       <Button layoutX="197.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#removeButtonClicked" text="-" />
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clearListClicked" text="Clear List" />
       <MenuBar layoutX="492.0" layoutY="14.0" onMouseClicked="#viewButtonClicked" prefHeight="25.0" prefWidth="78.0">
          <menus>
             <Menu mnemonicParsing="false" text="View">
                <items>
-                  <CheckMenuItem mnemonicParsing="false" onAction="#allItemsClicked" text="All Items" />
+                  <CheckMenuItem mnemonicParsing="false"  text="All Items" />
                   <CheckMenuItem mnemonicParsing="false" onAction="#completedItemsClicked" text="Completed Items" />
                   <CheckMenuItem mnemonicParsing="false" onAction="#uncompletedItemsClicked" text="Uncompleted Items" />
                </items>
@@ -40,7 +40,7 @@
       <CheckBox fx:id="initialCheckBox" layoutX="23.0" layoutY="346.0" mnemonicParsing="false" text="Complete?" />
       <Button layoutX="153.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
       <ListView fx:id="listItems" layoutX="19.0" layoutY="59.0" onMouseClicked="#selectItemClicked" prefHeight="200.0" prefWidth="200.0" />
-      <TextField fx:id="dueDateBox" layoutX="235.0" layoutY="334.0" />
+      <TextField fx:id="dueDateBox" layoutX="235.0" layoutY="334.0" promptText="Display Date and Edit" />
       <Button layoutX="512.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
       <ComboBox fx:id="viewingOptions" layoutX="309.0" layoutY="14.0" onMouseClicked="#viewButtonClicked" prefWidth="150.0" />
    </children>

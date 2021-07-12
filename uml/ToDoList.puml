@@ -13,22 +13,31 @@ Class HomePageController{
 TextField toDoListTitle
 TextField getTask
 TextField getDescription
-CheckBox getCheckBox
+CheckBox initialCheckBox
+TextField dueDateBox;
 DatePicker getDate
+ComboBox<String> viewingOptions
+ ListView listItems;
 
 addItemToJsonFile()
 addItemClicked()
 removeItemClicked()
-allItemsButtonClicked()
 completedItemsClicked()
+clearListClicked()
+clearListView()
+removeList()
 incompleteItemsClicked()
-saveListClicked()
-getTitle()
-loadList()
-setTitle()
+removeButtonClicked()
+ removeFromJsonFile()
+editButtonClicked()
+selectItemClicked()
+displaySelectedItem()
+initialize()
+addPreviousItems()
+viewButtonClicked()
 }
 
-Class AddItem(){
+Class AddItem{
  getItem()
  getJsonArray()
  addToFile()
@@ -39,5 +48,5 @@ JavaFx.Application <|-- HomePage
 
 
 HomePage--HomePageController
-HomePageController--AddItem
+AddItem--HomePageController
 @enduml

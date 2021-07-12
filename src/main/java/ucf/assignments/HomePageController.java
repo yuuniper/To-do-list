@@ -56,16 +56,6 @@ public class HomePageController implements Initializable{
 
 
     @FXML
-    private TableColumn<TableData, Boolean> checkedColumn;
-
-
-    @FXML
-    private TableColumn<TableData, String> itemColumn;
-
-    @FXML
-    private TableView<TableData> entireTable;
-
-    @FXML
     // private ListView<String>listItems;
     private ListView listItems;
 
@@ -96,7 +86,7 @@ public class HomePageController implements Initializable{
 
 
 
-    private void addItemToJsonFile() throws IOException {
+    public void addItemToJsonFile() throws IOException {
         // get Date
         String myDate = dateBox.getValue().toString();
         // get checkbox status
@@ -151,17 +141,11 @@ public class HomePageController implements Initializable{
     }*/
 
 
-    @FXML
-    void allItemsClicked(ActionEvent event) {
-
-    }
 
     @FXML
     void clearListClicked(MouseEvent event) {
-
-        removeList();
+        JSONArray checkArray = removeList();
         clearListView();
-
     }
 
     public void clearListView() {
@@ -169,7 +153,7 @@ public class HomePageController implements Initializable{
         listItems.getItems().clear();
     }
 
-    public void removeList(){
+    public JSONArray removeList(){
         if (jsonArray != null) {
             // make a new jsonArray element to clear out the old one
                 JSONArray jsonArray = new JSONArray();
@@ -180,6 +164,7 @@ public class HomePageController implements Initializable{
                     e.printStackTrace();
                 }
             }
+        return jsonArray;
         }
 
 
