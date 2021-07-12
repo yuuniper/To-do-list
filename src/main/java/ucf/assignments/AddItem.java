@@ -16,9 +16,11 @@ import org.json.*;
 
 public class AddItem {
     public void getItem(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) throws IOException {
+      
 
         // Make JsonArray
          jsonArray = getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
+       
          addToFile(jsonArray);
     }
 
