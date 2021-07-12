@@ -20,8 +20,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
    <children>
-      <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" onMouseClicked="#descriptionClicked" prefHeight="272.0" prefWidth="339.0" />
-      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" onMouseClicked="#dateClicked" />
+      <TextArea fx:id="descriptionBox" layoutX="235.0" layoutY="48.0" prefHeight="272.0" prefWidth="339.0" />
+      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" />
       <Button layoutX="197.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#removeButtonClicked" text="-" />
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clearListClicked" text="Clear List" />
       <MenuBar layoutX="300.0" layoutY="14.0" prefHeight="25.0" prefWidth="192.0">
