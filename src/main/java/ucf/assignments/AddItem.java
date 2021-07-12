@@ -66,7 +66,7 @@ public class AddItem {
         // Make JsonArray
         jsonArray = getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
 
-        addToFile(jsonArray);
+        String directory = addToFile(jsonArray);
     }
 
     public JSONArray getJsonArray(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) {
@@ -84,9 +84,10 @@ public class AddItem {
         return jsonArray;
     }
 
-    public void addToFile(JSONArray jsonArray) throws IOException {
+    public String addToFile(JSONArray jsonArray) throws IOException {
+        String directory = "";
         try {
-            String directory = getDirectory();
+            directory = getDirectory();
             FileWriter file = new FileWriter(directory);
             file.write(jsonArray.toString());
             file.close();
@@ -94,6 +95,7 @@ public class AddItem {
             e.printStackTrace();
         }
 
+        return directory;
     }
 
     public static String getDirectory() throws IOException {
