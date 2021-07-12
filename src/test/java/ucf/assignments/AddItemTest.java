@@ -1,15 +1,22 @@
 package ucf.assignments;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 
 class AddItemTest {
 
-    @Test
-    void getItem() {
-    }
 
     @Test
     void getJsonArray() {
+        AddItem test = new AddItem();
+        String itemAddText = "Gardening";
+        String descriptionBoxText = "Buy tools"
+        String date = "2021-07-20";
+        boolean isChecked = true;
+        JSONArray jsonArray = new JSONArray();
+
+        //JSONArray testJsonArray = test.getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
+
     }
 
     @Test

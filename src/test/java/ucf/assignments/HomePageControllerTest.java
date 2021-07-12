@@ -15,8 +15,6 @@ class HomePageControllerTest {
     @Test
     void addItemToJsonFile_check_if_added(){
         HomePageController test = new HomePageController();
-        test.
-
     }
 
     @Test
