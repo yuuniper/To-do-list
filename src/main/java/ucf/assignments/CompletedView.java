@@ -5,35 +5,50 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompletedView {
     public static void gotoview(String selection, JSONArray jsonArray, ListView listItems) {
         if (selection.equals("All Items")){
-           // displayAllItems(jsonArray);
+            displayAllItems(jsonArray, listItems);
         }
         else if(selection.equals("Completed Items")){
-            displayCompletedItems(jsonArray, listItems);
+            displayItems(jsonArray, listItems, true);
         }
         else{
-            //displayIncompleteItems(jsonArray);
+            displayItems(jsonArray, listItems, false);
         }
     }
 
-    public static void displayCompletedItems(JSONArray jsonArray, ListView listItems) {
-        ArrayList<JSONObject> itemsList = new ArrayList<>();
-
+    public static void displayItems(JSONArray jsonArray, ListView listItems, boolean isComplete) {
+        listItems.getItems().clear();
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++){
 
                 JSONObject jsn = jsonArray.getJSONObject(i);
 
+                String item = jsn.getString("Task");
                 Boolean isTask = jsn.getBoolean("Complete");
-                if (isTask.equals("true")){
-                    System.out.println(isTask);
-                    itemsList.add(jsn);
+                if (isTask.equals(isComplete)){
+                    listItems.getItems().add(item);
                 }
             }
-            listItems.getItems().add(itemsList);
+        }
+    }
+
+    public static void displayAllItems(JSONArray jsonArray, ListView listItems){
+
+        listItems.getItems().clear();
+
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsn = jsonArray.getJSONObject(i);
+
+                String item = jsn.getString("Task");
+
+                listItems.getItems().add(item);
+            }
         }
     }
 }

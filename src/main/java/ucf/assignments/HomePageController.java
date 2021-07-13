@@ -97,6 +97,7 @@ public class HomePageController implements Initializable{
         // Display to List View
         listItems.getItems().add(itemAdd.getText());
 
+
         // Clear text fields
         itemAdd.setText("");
         descriptionBox.setText("");
@@ -223,6 +224,19 @@ public class HomePageController implements Initializable{
     @FXML
     void selectItemClicked(MouseEvent event) {
         displaySelectedItem();
+    }
+
+    @FXML
+    void loadClicked(ActionEvent event) {
+        FileMaker makeFile = new FileMaker();
+        //jsonArray = makeFile.loadFile();
+    }
+
+    @FXML
+    void saveClicked(ActionEvent event) {
+        FileMaker makeFile = new FileMaker();
+        //String path =
+                makeFile.saveList(listItems);
 
     }
 
@@ -246,7 +260,6 @@ public class HomePageController implements Initializable{
 
                     boolean checkbox = (boolean) jsn.get("Complete");
                     initialCheckBox.setSelected(checkbox);
-
 
                 }
             }
@@ -273,9 +286,9 @@ public class HomePageController implements Initializable{
         jsonArray = AddItem.addPreviousItemsFromJsonFile();
     }
 
-    public void viewButtonClicked(MouseEvent event) {
-        System.out.println("View Button Clicked");
+    public void viewButtonClicked(ActionEvent event) {
         String selection  = viewingOptions.getSelectionModel().getSelectedItem().toString();
+        System.out.println(selection);
         CompletedView.gotoview(selection, jsonArray, listItems);
     }
 
