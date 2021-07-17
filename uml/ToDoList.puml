@@ -44,9 +44,25 @@ Class AddItem{
  getDirectory()
 }
 
+Class MyListView{
+gotoView()
+displayItems()
+displayAllItmes()
+sort()
+getSort()
+}
+
+Class FileMaker{
+loadFile()
+parseJSONData()
+saveList()
+saveSystem()
+}
 JavaFx.Application <|-- HomePage
 
 
 HomePage--HomePageController
 AddItem--HomePageController
+MyListView--HomePageController
+FileMaker--HomePageController
 @enduml

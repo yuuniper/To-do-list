@@ -1,59 +1,111 @@
 package ucf.assignments;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ListView;
+import com.google.gson.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 
-import javax.swing.*;
-import java.io.File;
+import org.json.simple.parser.JSONParser;
+//import org.json.simple.JSONObject;
+import org.json.JSONObject;
+
+import java.io.*;
+
 
 public class FileMaker {
-    //public JSONArray loadFile() {
-   // FileChooser fc = new FileChooser();
-    /* FileChooser fileChooser = new FileChooser();
-     fileChooser.setTitle("Save Image");
-     //System.out.println(pic.getId());
-     File file = fileChooser.showSaveDialog(stage);
-     if (file != null) {
-         try {
-             ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(),
-                     null), "png", file);
-         } catch (IOException ex) {
-             System.out.println(ex.getMessage());
-         }
-     }
-    File selectedFile = fc.showOpenDialog(null);
-        if (selectedFile != null){
-        listItems.getItems().add(selectedFile.getName());
-    } else {
-        System.out.println("File does not exist");
-    }
-    //}*/
 
-    public void saveList(ListView listItems) {
-        /*Stage stage;
-        Parent root;
+    public JSONArray loadFile() {
+        // Make fileChooser
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open File");
+        // Launch
+        File file = chooser.showOpenDialog(new Stage());
 
-            stage = (Stage) btn1.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("FXML2.fxml"));
+        // Get File Path and JSON Array
+        JSONArray jsonArray = parseJSONData(file.getAbsolutePath());
 
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
+        return jsonArray;
     }
 
-     /*JFileChooser fileChooser = new JFileChooser();
-        int returnVal = fileChooser.showSaveDialog(FileChooserDemo.this);
+    public JSONArray parseJSONData(String filePath)  {
+        // This code is unnecessarily and painfully janky
+        // But I couldn't parse it using a JSON parser since
+        // it wouldn't convert between JSON Simple vs json.
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = filechooser.getSelectedFile();
-            log.append("Saving: " + file.getName() + "." + newline);
-        } else {
-            log.append("Save command cancelled by user." + newline);
-        }*/
+        // Create JSON Array
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            // create Gson instance
+            Gson gson = new Gson();
+
+            // Read in file
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            JsonParser parser = new JsonParser();
+            JsonObject object = parser.parse(br).getAsJsonObject();
+            // Get To Do List Array
+            JsonArray jsonArrayToDoList = object.get("To Do List").getAsJsonArray();
+
+            // Add To Do List JsonArray to JSONArray data type
+            for (JsonElement itemElement : jsonArrayToDoList){
+
+                // Retrieve from jsonObject
+                JsonObject itemObject = itemElement.getAsJsonObject();
+                String date = itemObject.get("Date").getAsString();
+                String item = itemObject.get("Task").getAsString();
+                String description = itemObject.get("Description").getAsString();
+                String isChecked = itemObject.get("Complete").getAsString();
+
+                // Add to JSONArray
+                JSONObject jsonObject = new JSONObject();
+
+                jsonObject.put("Task", item);
+                jsonObject.put("Description", description);
+                jsonObject.put("Date", date);
+                jsonObject.put("Complete", isChecked);
+
+                jsonArray.put(jsonObject);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+
+    public static void saveList(JSONArray jsonArray) throws FileNotFoundException {
+        // Save List to file
+        FileChooser fileChooser = new FileChooser();
+        // Add extensions
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        // Show window
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        // Put the jsonArray into a JSONObject to make it easier to handle
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("To Do List", jsonArray);
+
+
+        if (file != null){
+            // Write to JSON file
+            String jsonObjectAsString = saveSystem(file, jsonObject.toString());
+        }
+    }
+
+    public static String saveSystem(File file, String jsonObject){
+        try {
+            // Write to JSON file
+            PrintWriter printWriter = new PrintWriter(file);
+            printWriter.write(jsonObject);
+
+            // Flush printWriter
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }

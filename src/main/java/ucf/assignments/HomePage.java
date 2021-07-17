@@ -26,7 +26,9 @@
          try {
              Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
              Scene scene = new Scene(root);
+             //Scene scene2 = new Scene
 
+             //scene.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
              primaryStage.setScene(scene);
              primaryStage.setTitle("ToDoList");
              primaryStage.show();

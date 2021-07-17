@@ -7,7 +7,6 @@
 
 package ucf.assignments;
 
-import com.google.gson.JsonElement;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -16,25 +15,29 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable{
 
     AddItem makeItem = new AddItem();
     JSONArray jsonArray = new JSONArray();
-    CompletedView myView = new CompletedView();
+    MyListView myView = new MyListView();
 
     @FXML
     private TextArea descriptionBox;
@@ -54,41 +57,37 @@ public class HomePageController implements Initializable{
     @FXML
     private ComboBox<String> viewingOptions;
 
+    @FXML
+    private Label displayMsg;
 
     @FXML
-    // private ListView<String>listItems;
     private ListView listItems;
+
+    FileChooser fileChooser = new FileChooser();
 
     ListProperty<String> listProperty = new SimpleListProperty<>();
 
     @FXML
     void addButtonClicked(MouseEvent event) throws IOException {
         addItemToJsonFile();
-        //displayToList(jsonArray);
-
+    }
+    @FXML
+    void addItemClearButtonClicked(MouseEvent event) {
+        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg);
     }
 
-    public void displayToList(JSONArray jsonArray){
-        ArrayList<String> itemsList = new ArrayList<String>();
-
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length();i++){
-                JSONObject jsn = jsonArray.getJSONObject(i);
-
-                String keyVal = jsn.getString("Task");
-                itemsList.add(keyVal);
-                System.out.println(keyVal);
-                listItems.getItems().add(keyVal);
-            }
-        }
-
+    public void clearBoxes(TextField itemAdd, TextArea descriptionBox, DatePicker dateBox, CheckBox initialCheckBox, Label displayMsg){
+        // Clear text fields
+        itemAdd.setText("");
+        descriptionBox.setText("");
+        dateBox.getEditor().clear();
+        initialCheckBox.setSelected(false);
+        displayMsg.setText("");
     }
-
-
-
     public void addItemToJsonFile() throws IOException {
         // get Date
-        String myDate = dateBox.getValue().toString();
+        String myDate = getDate(dateBox.getValue().toString(), displayMsg);
+
         // get checkbox status
         boolean isChecked = initialCheckBox.isSelected();
 
@@ -103,44 +102,38 @@ public class HomePageController implements Initializable{
         descriptionBox.setText("");
         dateBox.getEditor().clear();
         initialCheckBox.setSelected(false);
+        displayMsg.setText("");
     }
 
-    //ObservableList<TableData> list = FXCollections.observableArrayList();
+    public String getDate(String date, Label displayMsg) {
 
-    /*@Override
-    public void initialize(URL url, ResourceBundle rb){
-        checkedColumn.setCellValueFactory(new PropertyValueFactory<TableData, Boolean>("checkedColumn"));
-        itemColumn.setCellValueFactory(new PropertyValueFactory<TableData, String>("itemColumn"));
-        //entireTable.setItems(list);
-        entireTable.getColumns().add(checkedColumn);
-        entireTable.getColumns().add(itemColumn);
+        boolean valid = false;
+        do {
+            try {
 
-        for (int i = 0; i < jsonArray.length(); i++){
-            entireTable.getItems().add(new TableData("right", false));
-        }
-    }*/
+                // ResolverStyle.STRICT for 30, 31 days checking, and also leap year.
+                LocalDate.parse(date, DateTimeFormatter.ofPattern("uuuu-M-d")
+                        .withResolverStyle(ResolverStyle.STRICT)
+                );
 
+                valid = true;
 
-
-    /*@Override
-    public void initialize(URL url, ResourceBundle rb){
-        ArrayList<String> itemsList = new ArrayList<String>();
-
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length();i++){
-                JSONObject jsn = jsonArray.getJSONObject(i);
-
-                String keyVal = jsn.getString("Task");
-                itemsList.add(keyVal);
-                System.out.println(keyVal);
+            } catch (DateTimeParseException e) {
+                displayMsg.setText("Retry");
+                e.printStackTrace();
+                System.out.println("Not valid date");
+            } catch(NullPointerException e){
+                displayMsg.setText("Retry");
+                System.out.println("Not Valid date");
+                e.printStackTrace();
+            } catch(Exception e){
+                displayMsg.setText("Retry");
+                System.out.println("Not Valid date");
+                e.printStackTrace();
             }
-        }
-        listItems.itemsProperty().bind(listProperty);
-        //listItems.getItems().addAll(itemsList);
-        listProperty.set(FXCollections.observableArrayList(itemsList));
-
-    }*/
-
+        } while (valid == false);
+        return date;
+    }
 
 
     @FXML
@@ -169,10 +162,6 @@ public class HomePageController implements Initializable{
         }
 
 
-    @FXML
-    void completedItemsClicked(ActionEvent event) {
-
-    }
 
     @FXML
     void removeButtonClicked(MouseEvent event) throws IOException {
@@ -202,23 +191,21 @@ public class HomePageController implements Initializable{
                     dateBox.getEditor().clear();
                     initialCheckBox.setSelected(false);
                     dueDateBox.setText("");
+                    displayMsg.setText("");
                     listItems.getItems().remove(itemSelected);
                 }
             }
         }
 
     }
-    @FXML
-    void uncompletedItemsClicked(ActionEvent event) {
 
-    }
 
     @FXML
     void editButtonClicked(MouseEvent event) throws IOException {
         // add edited item
         addItemToJsonFile();
         // delete old item
-        removeFromJsonFile();
+       // removeFromJsonFile();
     }
 
     @FXML
@@ -229,19 +216,20 @@ public class HomePageController implements Initializable{
     @FXML
     void loadClicked(ActionEvent event) {
         FileMaker makeFile = new FileMaker();
-        //jsonArray = makeFile.loadFile();
+        jsonArray = makeFile.loadFile();
+        MyListView.displayAllItems(jsonArray, listItems);
     }
 
     @FXML
     void saveClicked(ActionEvent event) {
-        FileMaker makeFile = new FileMaker();
-        //String path =
-                makeFile.saveList(listItems);
-
+        try {
+            FileMaker.saveList(jsonArray);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void displaySelectedItem(){
-        //ArrayList<String> itemsList = new ArrayList<String>();
         Object itemSelected = listItems.getSelectionModel().getSelectedItem();
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++){
@@ -256,7 +244,9 @@ public class HomePageController implements Initializable{
 
                     String date = jsn.getString("Date");
                     dueDateBox.setText(date);
+                    displayMsg.setText(date);
                     dateBox.setValue(LocalDate.parse(date));
+                    //dateBox.setValue(LocalDate.of(date));
 
                     boolean checkbox = (boolean) jsn.get("Complete");
                     initialCheckBox.setSelected(checkbox);
@@ -273,12 +263,11 @@ public class HomePageController implements Initializable{
         viewingOptions.setItems(list);
         viewingOptions.setValue("All Items");
 
-        // Loading from previously saved json File to list
-        /*try {
-            addPreviousItems();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
+
+        String userPath = System.getProperty("user.dir");
+        String directory = userPath + "\\ToDoList.json";
+
+        fileChooser.setInitialDirectory(new File(directory));
 
     }
 
@@ -286,13 +275,16 @@ public class HomePageController implements Initializable{
         jsonArray = AddItem.addPreviousItemsFromJsonFile();
     }
 
+    @FXML
     public void viewButtonClicked(ActionEvent event) {
         String selection  = viewingOptions.getSelectionModel().getSelectedItem().toString();
-        System.out.println(selection);
-        CompletedView.gotoview(selection, jsonArray, listItems);
+        MyListView.gotoview(selection, jsonArray, listItems);
     }
 
-
+    @FXML
+    public void sortButtonClicked(MouseEvent event) {
+        JSONArray sorted =  MyListView.sort(jsonArray, listItems);
+    }
 
 
 }
