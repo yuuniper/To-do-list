@@ -57,7 +57,7 @@ class FileMakerTest {
     void checkIfSavedFile(){
         // Check if file is saved
         String userPath = System.getProperty("user.dir");
-        String directory = userPath + "\\TestingwithHike.json";
+        String directory = userPath + "\\TestFile.json";
 
         Path path = Paths.get(directory);
         boolean isFile = false;
