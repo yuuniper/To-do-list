@@ -8,33 +8,31 @@ import org.json.JSONObject;
 import java.util.*;
 
 public class MyListView {
-    public static String gotoview(String selection, JSONArray jsonArray, ListView listItems) {
-        if (selection.equals("All Items")){
-            int count = displayAllItems(jsonArray, listItems);
-        }
-        else if(selection.equals("Completed Items")){
-            int count = displayItems(jsonArray, listItems, true);
-        }
-        else{
+    public static void gotoview(String selection, JSONArray jsonArray, ListView listItems) {
+        int counter = 0;
+        if (selection.equals("All Items")) {
+            counter = displayAllItems(jsonArray, listItems);
+        } else if (selection.equals("Completed Items")) {
+            counter = displayItems(jsonArray, listItems, true);
+        } else {
             // if selection equals Incomplete
-            int count = displayItems(jsonArray, listItems, false);
+            counter = displayItems(jsonArray, listItems, false);
         }
 
-        return selection;
+        counter = gotoViewTestFunction(jsonArray, selection);
     }
 
     public static int displayItems(JSONArray jsonArray, ListView listItems, boolean isComplete) {
-        // Display either incomplete or complete items
         listItems.getItems().clear();
         int counter = 0;
         if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsn = jsonArray.getJSONObject(i);
 
                 String item = jsn.getString("Task");
                 Boolean isTask = jsn.getBoolean("Complete");
-                if (isTask.equals(isComplete)){
+                if (isTask.equals(isComplete)) {
                     listItems.getItems().add(item);
                     counter++;
                 }
@@ -43,7 +41,7 @@ public class MyListView {
         return counter;
     }
 
-    public static int displayAllItems(JSONArray jsonArray, ListView listItems){
+    public static int displayAllItems(JSONArray jsonArray, ListView listItems) {
 
         listItems.getItems().clear();
         int counter = 0;
@@ -90,7 +88,7 @@ public class MyListView {
             jsonValues.add(jsonArr.getJSONObject(i));
         }
         // Sort by List
-        Collections.sort( jsonValues, new Comparator<JSONObject>() {
+        Collections.sort(jsonValues, new Comparator<JSONObject>() {
 
             private static final String KEY_NAME = "Date";
 
@@ -103,8 +101,7 @@ public class MyListView {
                 try {
                     valA = (String) a.get(KEY_NAME);
                     valB = (String) b.get(KEY_NAME);
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     //do something
                 }
 
@@ -118,5 +115,77 @@ public class MyListView {
         }
         System.out.println(sortedJsonArray);
         return sortedJsonArray;
+    }
+
+    public static int gotoViewTestFunction(JSONArray jsonArray, String selection) {
+        // This function mirrors the above "gotoview" function
+        // The FXML element is integral to the function
+        // But since JUnit testing does not tolerate FXML elements,
+        // I've just decided to copy the function instead
+        int counter = 0;
+        if (selection.equals("All Items")) {
+            if (jsonArray != null) {
+                System.out.println(jsonArray.length());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    System.out.println("I am being accessed");
+                    JSONObject jsn = jsonArray.getJSONObject(i);
+                    String item = jsn.getString("Task");
+                    counter++;
+                }
+            }
+            return counter;
+        } else if (selection.equals("Completed Items")) {
+            if (jsonArray != null) {
+                System.out.println(jsonArray.length());
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jsn = jsonArray.getJSONObject(i);
+
+                    String item = jsn.getString("Task");
+                    Boolean isTask = jsn.getBoolean("Complete");
+                    if (isTask.equals(true)) {
+                        counter++;
+
+                    }
+                }
+                return counter;
+            }
+        } else {
+            // if selection equals Incomplete
+            if (jsonArray != null) {
+                System.out.println(jsonArray.length());
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jsn = jsonArray.getJSONObject(i);
+
+                    String item = jsn.getString("Task");
+                    Boolean isTask = jsn.getBoolean("Complete");
+                    if (isTask.equals(false)) {
+                        counter++;
+
+                    }
+                }
+            }
+        }
+        return counter;
+
+    }
+
+    public static JSONArray sortTester(JSONArray jsonArray) {
+        // This function mirrors the above "sort" function
+        // The FXML element is integral to the function
+        // But since JUnit testing does not tolerate FXML elements,
+        // I've just decided to copy the function instead without the FXML elements
+        JSONArray sortArray = getSort(jsonArray);
+
+        if (jsonArray != null) {
+            for (int i = 0; i < sortArray.length(); i++) {
+
+                JSONObject jsn = sortArray.getJSONObject(i);
+
+                String item = jsn.getString("Task");
+            }
+        }
+        return sortArray;
     }
 }

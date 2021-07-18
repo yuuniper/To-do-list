@@ -16,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -60,8 +58,14 @@ public class HomePageController implements Initializable{
     @FXML
     private Label displayMsg;
 
+
+    @FXML
+    private Label errorMsg;
+
     @FXML
     private ListView listItems;
+
+
 
     FileChooser fileChooser = new FileChooser();
 
@@ -73,36 +77,47 @@ public class HomePageController implements Initializable{
     }
     @FXML
     void addItemClearButtonClicked(MouseEvent event) {
-        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg);
+        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg, errorMsg);
     }
 
-    public void clearBoxes(TextField itemAdd, TextArea descriptionBox, DatePicker dateBox, CheckBox initialCheckBox, Label displayMsg){
+    public void clearBoxes(TextField itemAdd, TextArea descriptionBox, DatePicker dateBox,
+                           CheckBox initialCheckBox, Label displayMsg, Label errorMsg){
         // Clear text fields
         itemAdd.setText("");
         descriptionBox.setText("");
-        dateBox.getEditor().clear();
+        dateBox.setValue(null);
         initialCheckBox.setSelected(false);
         displayMsg.setText("");
+        errorMsg.setText("");
     }
     public void addItemToJsonFile() throws IOException {
-        // get Date
-        String myDate = getDate(dateBox.getValue().toString(), displayMsg);
 
         // get checkbox status
         boolean isChecked = initialCheckBox.isSelected();
 
-        // make item in Json File
-        makeItem.getItem(itemAdd.getText(), descriptionBox.getText(), myDate, isChecked, jsonArray);
-        // Display to List View
-        listItems.getItems().add(itemAdd.getText());
+        //validate input
+        boolean checkValid = makeItem.validateInput(descriptionBox.getText(), dateBox.getValue());
+        System.out.println("validating input");
+        if (checkValid == true){
+            // get Date
+            String myDate = getDate(dateBox.getValue().toString(), displayMsg);
 
+            // make item in Json File
+            makeItem.getItem(itemAdd.getText(), descriptionBox.getText(), myDate, isChecked, jsonArray);
+            // Display to List View
+            listItems.getItems().add(itemAdd.getText());
+            // Clear text fields
+            itemAdd.setText("");
+            descriptionBox.setText("");
+            dateBox.getEditor().clear();
+            initialCheckBox.setSelected(false);
+            displayMsg.setText("");
+            errorMsg.setText("");
+        } else {
+            errorMsg.setText("Invalid Input");
+            System.out.println("I'm being accessed");
+        }
 
-        // Clear text fields
-        itemAdd.setText("");
-        descriptionBox.setText("");
-        dateBox.getEditor().clear();
-        initialCheckBox.setSelected(false);
-        displayMsg.setText("");
     }
 
     public String getDate(String date, Label displayMsg) {
@@ -112,7 +127,7 @@ public class HomePageController implements Initializable{
             try {
 
                 // ResolverStyle.STRICT for 30, 31 days checking, and also leap year.
-                LocalDate.parse(date, DateTimeFormatter.ofPattern("uuuu-M-d")
+                LocalDate.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd")
                         .withResolverStyle(ResolverStyle.STRICT)
                 );
 
@@ -138,9 +153,19 @@ public class HomePageController implements Initializable{
 
     @FXML
     void clearListClicked(MouseEvent event) {
-        JSONArray checkArray = removeList();
+        clearList(jsonArray);
         clearListView();
+        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg, errorMsg);
+
     }
+
+    public JSONArray clearList(JSONArray jsonArray) {
+        JSONArray checkArray = removeList();
+        this.jsonArray = new JSONArray();
+
+        return jsonArray;
+    }
+
 
     public void clearListView() {
         // Clear all items from list view
@@ -165,19 +190,21 @@ public class HomePageController implements Initializable{
 
     @FXML
     void removeButtonClicked(MouseEvent event) throws IOException {
-        removeFromJsonFile();
-    }
-
-    public void removeFromJsonFile(){
 
         Object itemSelected = listItems.getSelectionModel().getSelectedItem();
+        removeFromJsonFile(itemSelected);
+    }
+
+    public void removeFromJsonFile(Object itemSelected){
         System.out.println(itemSelected);
+        // Search for object in JSON Array
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++){
 
                 JSONObject jsn = jsonArray.getJSONObject(i);
 
                 String isTask = jsn.getString("Task");
+                // Remove from JSON Array and JSON file
                 if (isTask.equals(itemSelected)){
                     jsonArray.remove(i);
                     try {
@@ -186,12 +213,8 @@ public class HomePageController implements Initializable{
                         e.printStackTrace();
                     }
                     // Clear text fields
-                    itemAdd.setText("");
-                    descriptionBox.setText("");
-                    dateBox.getEditor().clear();
-                    initialCheckBox.setSelected(false);
-                    dueDateBox.setText("");
-                    displayMsg.setText("");
+                    clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg, errorMsg);
+
                     listItems.getItems().remove(itemSelected);
                 }
             }
@@ -202,21 +225,39 @@ public class HomePageController implements Initializable{
 
     @FXML
     void editButtonClicked(MouseEvent event) throws IOException {
+        editList();
+    }
+
+    public void editList() {
         // add edited item
-        addItemToJsonFile();
+        try {
+            addItemToJsonFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // delete old item
-       // removeFromJsonFile();
+        Object itemSelected = listItems.getSelectionModel().getSelectedItem();
+
+        removeFromJsonFile(itemSelected);
     }
 
     @FXML
     void selectItemClicked(MouseEvent event) {
+        System.out.println("Selected Item being clicked");
         displaySelectedItem();
     }
 
     @FXML
     void loadClicked(ActionEvent event) {
+        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg, errorMsg);
+        clearListView();
         FileMaker makeFile = new FileMaker();
         jsonArray = makeFile.loadFile();
+        try {
+            makeItem.addToFile(jsonArray);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         MyListView.displayAllItems(jsonArray, listItems);
     }
 
@@ -243,9 +284,12 @@ public class HomePageController implements Initializable{
                     descriptionBox.setText(description);
 
                     String date = jsn.getString("Date");
-                    dueDateBox.setText(date);
+                    //dueDateBox.setText(date);
                     displayMsg.setText(date);
-                    dateBox.setValue(LocalDate.parse(date));
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate lt = LocalDate.parse(date, formatter);
+                    dateBox.setValue(lt);
                     //dateBox.setValue(LocalDate.of(date));
 
                     boolean checkbox = (boolean) jsn.get("Complete");
@@ -279,14 +323,13 @@ public class HomePageController implements Initializable{
     public void viewButtonClicked(ActionEvent event) {
         String selection  = viewingOptions.getSelectionModel().getSelectedItem().toString();
         MyListView.gotoview(selection, jsonArray, listItems);
+        clearBoxes(itemAdd, descriptionBox, dateBox, initialCheckBox, displayMsg, errorMsg);
     }
 
     @FXML
     public void sortButtonClicked(MouseEvent event) {
         JSONArray sorted =  MyListView.sort(jsonArray, listItems);
     }
-
-
 }
 
 

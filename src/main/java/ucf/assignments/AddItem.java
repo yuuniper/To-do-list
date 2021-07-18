@@ -9,8 +9,7 @@ import javafx.scene.control.DatePicker;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.time.LocalDate;
 
 import org.json.simple.parser.*;
 import org.json.*;
@@ -46,10 +45,6 @@ public class AddItem {
     }
     private static void parseItemObject(JSONObject item)
     {
-        //Get employee object within list
-        //JSONObject employeeObject = (JSONObject) item.get("employee");
-
-        //Get employee first name
         String task = (String) item.get("Task");
         System.out.println(task);
 
@@ -69,7 +64,22 @@ public class AddItem {
         String directory = addToFile(jsonArray);
     }
 
+    public boolean validateInput(String descriptionBoxText, LocalDate date) {
+        boolean checkValid = true;
+        if(descriptionBoxText.length() < 1 || descriptionBoxText.length() > 256){
+            System.out.println("Invalid length ");
+            checkValid = false;
+        }
+        if (date == null){
+            System.out.println("Not correct date");
+            checkValid = false;
+        }
+
+        return checkValid;
+    }
+
     public JSONArray getJsonArray(String itemAddText, String descriptionBoxText, String date, boolean isChecked, JSONArray jsonArray) {
+
         System.out.println(itemAddText + descriptionBoxText + date + isChecked);
 
         JSONObject jsonObject = new JSONObject();

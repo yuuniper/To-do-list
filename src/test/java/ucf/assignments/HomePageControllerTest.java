@@ -7,6 +7,8 @@
 
 package ucf.assignments;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -17,10 +19,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import static org.junit.Assert.*;
 
 class HomePageControllerTest {
     JSONArray jsonArray = new JSONArray();
     JSONArray checker = new JSONArray();
+    @FXML TextArea descriptionBox = null ;
+    DatePicker dateBox = null;
+    TextField itemAdd = null;
+    CheckBox initialCheckBox = null;
+    Label displayMsg = null;
+    Label errorMsg = null;
 
     @Test
     void addItemToJsonFile_check_if_added() throws IOException {
@@ -65,12 +75,21 @@ class HomePageControllerTest {
         jsonObject.put("Complete", true);
 
         checker.put(jsonObject);
+
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("Task", "Picnic");
+        jsonObject2.put("Description", "Buy Sandwiches, Buy Lillies");
+        jsonObject2.put("Date", "2021-07-14");
+        jsonObject2.put("Complete", false);
+
+        checker.put(jsonObject2);
         JSONArray testJsonArray = test.getJsonArray(itemAddText, descriptionBoxText, date, isChecked, jsonArray);
         return testJsonArray;
     }
 
     @Test
     void removeList_check() {
+        // Test to see if able to remove an item from a list
         HomePageController test = new HomePageController();
         makeJsonArray();
         JSONArray clear = test.removeList();
@@ -79,6 +98,26 @@ class HomePageControllerTest {
         boolean checkEle = checker.toString().contains("Gardening");
 
         Assert.assertNotSame(testJsonArrayEle, checkEle);
+
+    }
+
+    @Test
+    void clearAllItemsOffList_check(){
+        // Check if All Items are cleared
+        HomePageController test = new HomePageController();
+        // Make JSON array
+        JSONArray jsonArray = checker;
+        JSONArray testArray = test.clearList(jsonArray);
+        // Check if either contain element
+        boolean testJsonArrayEle = testArray.toString().contains("Picnic");
+        JSONArray clear = new JSONArray();
+        boolean checkEle = clear.toString().contains("Picnic");
+
+        assertEquals(testJsonArrayEle, checkEle);
+    }
+
+    @Test
+    void checkIfAbletoMarkOff(){
 
     }
 
@@ -99,6 +138,7 @@ class HomePageControllerTest {
         // assertNotTrue(isItem)
 
     }
+
 
     @Test
     void allItemsButtonClicked() {
