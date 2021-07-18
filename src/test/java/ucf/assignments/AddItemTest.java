@@ -81,7 +81,7 @@ class AddItemTest {
 
     @Test
     void validate_description_true(){
-        // check if date is valid
+        // check if description is valid
         AddItem test = new AddItem();
         boolean checkValid = test.validateInput("Butterfliesss", LocalDate.now());
         assertEquals(true, true);
@@ -97,7 +97,7 @@ class AddItemTest {
 
     @Test
     void validate_description_not_true(){
-        // check if date is valid
+        // check if description is valid
         AddItem test = new AddItem();
         boolean checkValid = test.validateInput("", LocalDate.now());
         assertEquals(false, false);
@@ -140,6 +140,36 @@ class AddItemTest {
         String descriptionBoxText = "Buy Pots";
         String date = "2021-07-20";
         boolean isChecked = true;
+
+        JSONArray checker = makeJSONArray();
+        JSONArray testArray = test.getJsonArray(itemAddText, descriptionBoxText, date, isChecked, checker);
+
+        String checkString = checker.toString();
+        Assert.assertNotSame(checkString, testArray.toString());
+    }
+
+    @Test
+    void edit_date(){
+        AddItem test = new AddItem();
+        String itemAddText = "Gardening";
+        String descriptionBoxText = "Buy Tools";
+        String date = "2021-06-30";
+        boolean isChecked = true;
+
+        JSONArray checker = makeJSONArray();
+        JSONArray testArray = test.getJsonArray(itemAddText, descriptionBoxText, date, isChecked, checker);
+
+        String checkString = checker.toString();
+        Assert.assertNotSame(checkString, testArray.toString());
+    }
+
+    @Test
+    void check_if_marked_off_or_not(){
+        AddItem test = new AddItem();
+        String itemAddText = "Gardening";
+        String descriptionBoxText = "Buy Tools";
+        String date = "2021-06-30";
+        boolean isChecked = false;
 
         JSONArray checker = makeJSONArray();
         JSONArray testArray = test.getJsonArray(itemAddText, descriptionBoxText, date, isChecked, checker);
