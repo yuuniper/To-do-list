@@ -51,7 +51,7 @@ class AddItemTest {
     void addToFile_check_file_path() {
         // Check if file is added through path
         String userPath = System.getProperty("user.dir");
-        String directory = userPath + "\\ToDoList.json";
+        String directory = userPath + "\\src\\test\\java\\ucf\\assignments\\TestFile.json";
 
         Path path = Paths.get(directory);
         boolean isFile = false;
@@ -67,7 +67,7 @@ class AddItemTest {
         String userPath = System.getProperty("user.dir");
         String directory = userPath + "\\ToDoList.json";
 
-        String actual = AddItem.getDirectory();
+        String actual = AddItem.getDirectory() ;
 
         Assert.assertEquals(directory, actual);
     }

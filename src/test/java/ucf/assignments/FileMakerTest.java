@@ -20,7 +20,8 @@ class FileMakerTest {
 
         // Get Directory of Test file
         String userPath = System.getProperty("user.dir");
-        String directory = userPath + "\\TestFile.json";
+
+        String directory = userPath + "\\src\\test\\java\\ucf\\assignments\\TestFile.json";
 
         // Get JSON array from loaded file
         JSONArray jsonArrayTest = makeFile.parseJSONData(directory);
@@ -39,7 +40,7 @@ class FileMakerTest {
 
         // Get Directory of Test file
         String userPath = System.getProperty("user.dir");
-        String directory = userPath + "\\TestFile.json";
+        String directory = userPath +"\\src\\test\\java\\ucf\\assignments\\TestFile.json";
 
         // Get JSON array from loaded file
         JSONArray jsonArrayTest = makeFile.parseJSONData(directory);
@@ -57,7 +58,7 @@ class FileMakerTest {
     void checkIfSavedFile(){
         // Check if file is saved
         String userPath = System.getProperty("user.dir");
-        String directory = userPath + "\\TestFile.json";
+        String directory = userPath + "\\src\\test\\java\\ucf\\assignments\\TestFile.json";
 
         Path path = Paths.get(directory);
         boolean isFile = false;
