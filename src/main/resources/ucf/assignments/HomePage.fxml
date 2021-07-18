@@ -44,7 +44,6 @@
          </font></CheckBox>
       <Button layoutX="153.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
       <ListView fx:id="listItems" layoutX="19.0" layoutY="59.0" onMouseClicked="#selectItemClicked" prefHeight="200.0" prefWidth="200.0" />
-      <TextField fx:id="dueDateBox" layoutX="248.0" layoutY="277.0" promptText="Display Date and Edit" />
       <Button layoutX="537.0" layoutY="277.0" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
       <ComboBox fx:id="viewingOptions" layoutX="309.0" layoutY="14.0" onAction="#viewButtonClicked" prefWidth="150.0" />
       <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#sortButtonClicked" text="Sort" />
