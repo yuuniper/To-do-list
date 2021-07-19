@@ -67,7 +67,8 @@ class AddItemTest {
         String userPath = System.getProperty("user.dir");
         String directory = userPath + "\\ToDoList.json";
 
-        String actual = AddItem.getDirectory() ;
+        AddItem makeItem = new AddItem();
+        String actual = makeItem.getDirectory() ;
 
         Assert.assertEquals(directory, actual);
     }

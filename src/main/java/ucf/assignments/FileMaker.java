@@ -1,6 +1,7 @@
 package ucf.assignments;
 
 import com.google.gson.*;
+import javafx.scene.control.DatePicker;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.JSONArray;
@@ -8,6 +9,7 @@ import org.json.JSONArray;
 import org.json.simple.parser.JSONParser;
 //import org.json.simple.JSONObject;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
@@ -54,7 +56,7 @@ public class FileMaker {
                 String date = itemObject.get("Date").getAsString();
                 String item = itemObject.get("Task").getAsString();
                 String description = itemObject.get("Description").getAsString();
-                String isChecked = itemObject.get("Complete").getAsString();
+                Boolean isChecked = itemObject.get("Complete").getAsBoolean();
 
                 // Add to JSONArray
                 JSONObject jsonObject = new JSONObject();

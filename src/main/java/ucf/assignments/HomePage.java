@@ -14,6 +14,7 @@
  import javafx.stage.Stage;
 
  import java.io.IOException;
+ import java.net.URL;
 
  public class HomePage extends Application {
 
@@ -26,7 +27,15 @@
          try {
              Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
              Scene scene = new Scene(root);
-             //Scene scene2 = new Scene
+
+             URL url = this.getClass().getResource("Style.css");
+             if (url == null){
+                 System.out.println("Couldn't find anything");
+                 System.out.println(-1);
+             }
+
+             String css = url.toExternalForm();
+             root.getStylesheets().add(css);
 
              //scene.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
              primaryStage.setScene(scene);

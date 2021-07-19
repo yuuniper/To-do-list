@@ -12,7 +12,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <!--
   ~ /*
@@ -21,13 +20,13 @@
   ~  */
   -->
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3F2B63;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
    <children>
       <TextArea fx:id="descriptionBox" layoutX="248.0" layoutY="59.0" prefHeight="200.0" prefWidth="326.0" promptText="Add Description" />
-      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" promptText="Add Date" />
+      <DatePicker fx:id="dateBox" layoutX="19.0" layoutY="308.0" prefHeight="25.0" prefWidth="200.0" promptText="Add Date" />
       <Button layoutX="198.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#removeButtonClicked" text="-" />
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clearListClicked" text="Clear List" />
-      <TextField fx:id="itemAdd" layoutX="19.0" layoutY="277.0" prefHeight="25.0" prefWidth="174.0" promptText=" Add Item" />
+      <TextField fx:id="itemAdd" layoutX="19.0" layoutY="277.0" prefHeight="25.0" prefWidth="200.0" promptText=" Add Item" />
       <MenuBar layoutX="524.0" layoutY="14.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -38,17 +37,14 @@
           </Menu>
         </menus>
       </MenuBar>
-      <CheckBox fx:id="initialCheckBox" layoutX="23.0" layoutY="346.0" mnemonicParsing="false" text="Complete" textFill="#fffefe">
-         <font>
-            <Font name="Corbel" size="12.0" />
-         </font></CheckBox>
-      <Button layoutX="153.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
+      <CheckBox fx:id="initialCheckBox" layoutX="23.0" layoutY="352.0" mnemonicParsing="false" text="Complete" />
+      <Button layoutX="179.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text="Add" />
       <ListView fx:id="listItems" layoutX="19.0" layoutY="59.0" onMouseClicked="#selectItemClicked" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="537.0" layoutY="277.0" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
-      <ComboBox fx:id="viewingOptions" layoutX="309.0" layoutY="14.0" onAction="#viewButtonClicked" prefWidth="150.0" />
-      <Button layoutX="94.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#sortButtonClicked" text="Sort" />
-      <Label fx:id="displayMsg" layoutX="248.0" layoutY="359.0" prefHeight="17.0" prefWidth="150.0" textFill="WHITE" />
+      <Button layoutX="531.0" layoutY="277.0" mnemonicParsing="false" onMouseClicked="#editButtonClicked" text="Edit" />
+      <ComboBox fx:id="viewingOptions" layoutX="364.0" layoutY="14.0" onAction="#viewButtonClicked" prefWidth="150.0" />
+      <Button layoutX="248.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#sortButtonClicked" text="Sort" />
+      <Label fx:id="displayMsg" layoutX="248.0" layoutY="351.0" prefHeight="17.0" prefWidth="150.0" />
       <Button layoutX="172.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#addItemClearButtonClicked" text="+" />
-      <Label fx:id="errorMsg" layoutX="248.0" layoutY="312.0" textFill="WHITE" />
+      <Label fx:id="errorMsg" layoutX="248.0" layoutY="312.0" />
    </children>
 </AnchorPane>

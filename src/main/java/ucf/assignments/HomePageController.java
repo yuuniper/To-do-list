@@ -316,7 +316,14 @@ public class HomePageController implements Initializable{
     }
 
     public void addPreviousItems() throws FileNotFoundException {
-        jsonArray = AddItem.addPreviousItemsFromJsonFile();
+        AddItem myItem = new AddItem();
+        String directory = "";
+        try {
+            directory = myItem.getDirectory();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        jsonArray = myItem.addPreviousItemsFromJsonFile(directory);
     }
 
     @FXML

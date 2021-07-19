@@ -1,0 +1,44 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+.root{
+
+    -fx-font-family: "Montserrat";
+    //-fx-background-color: #ffe8e8;
+    //-fx-background-color: #412A7C
+    -fx-background-color: #cae6ef;
+
+}
+
+// button styles
+.button {
+
+/*fx-display:inline-block;
+fx-padding:0.3em 1.2em;
+fx-margin:0 0.3em 0.3em 0;
+fx-border-radius:2em;
+fx-box-sizing: border-box;
+fx-font-weight:300;
+fx-text-align:center;*/
+-fx-color: #df0000;
+//-fx-background-color: #03DAC5;
+-fx-background-color: #e3483b;
+-fx-background-radius: 5;
+}
+
+.combo-box{
+//-fx-background-color: #03DAC5;
+-fx-background-color: #e3483b;
+-fx-color: #df0000;
+}
+
+button:hover {
+  -fx-gradient: 0.85;
+}
+
+.menu-bar{
+-fx-color: #df0000;
+//-fx-background-color: #03DAC5;
+-fx-background-color: #e3483b;
+}
+
+
+

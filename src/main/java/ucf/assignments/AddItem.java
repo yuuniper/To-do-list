@@ -18,7 +18,7 @@ import org.json.*;
 
 public class AddItem {
 
-    public static JSONArray addPreviousItemsFromJsonFile() throws FileNotFoundException {
+    public JSONArray addPreviousItemsFromJsonFile(String directory) throws FileNotFoundException {
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
         JSONArray jsonArray = new JSONArray();
@@ -31,7 +31,7 @@ public class AddItem {
              jsonArray = (JSONArray) obj;
             System.out.println(jsonArray);
 
-            //Iterate over employee array
+            //Iterate over array
             jsonArray.forEach( item -> parseItemObject( (JSONObject) item ) );
 
         } catch (FileNotFoundException e) {
@@ -43,7 +43,7 @@ public class AddItem {
         }
         return jsonArray;
     }
-    private static void parseItemObject(JSONObject item)
+    private void parseItemObject(JSONObject item)
     {
         String task = (String) item.get("Task");
         System.out.println(task);
@@ -108,7 +108,7 @@ public class AddItem {
         return directory;
     }
 
-    public static String getDirectory() throws IOException {
+    public String getDirectory() throws IOException {
         // Get Directory
         String userPath = System.getProperty("user.dir");
         String directory = userPath + "\\ToDoList.json";
