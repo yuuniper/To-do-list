@@ -21,7 +21,7 @@ class FileMakerTest {
         // Get Directory of Test file
         String userPath = System.getProperty("user.dir");
 
-        String directory = userPath + "\\src\\test\\java\\ucf\\assignments\\TestFile.json";
+        String directory = userPath + "/src/test/java/ucf/assignments/TestFile.json";
 
         // Get JSON array from loaded file
         JSONArray jsonArrayTest = makeFile.parseJSONData(directory);
@@ -40,7 +40,7 @@ class FileMakerTest {
 
         // Get Directory of Test file
         String userPath = System.getProperty("user.dir");
-        String directory = userPath +"\\src\\test\\java\\ucf\\assignments\\TestFile.json";
+        String directory = userPath +"/src/test/java/ucf/assignments/TestFile.json";
 
         // Get JSON array from loaded file
         JSONArray jsonArrayTest = makeFile.parseJSONData(directory);
